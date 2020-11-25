@@ -1,3 +1,14 @@
+# Сделайте так, чтобы в базу юзернеймы пользователей попадали только
+# в нижнем регистре. Например, если пользователь ввел vAsYA_2016, то в базе
+#  он бы сохранялся, как vasya_2016
+# Ваш код также должен гарантировать, что нельзя создать двух пользователей,
+# с никами, отличающимися только регистром букв.
+# Обязательно проверьте работоспособность кода в консоли.
+# В качестве ответа приложите ссылку на репозиторий с приложением askme.
+# Подсказка
+# Используйте подходящий колбэк, так, чтобы на валидацию и в базу попадали
+ # юзернеймы только в нижнем регистре.
+
 require 'openssl'
 
 class User < ApplicationRecord
@@ -5,6 +16,8 @@ class User < ApplicationRecord
   DIGEST = OpenSSL::Digest::SHA256.new
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
   VALID_USERNAME_REGEX = /\A[A-Za-z0-9_]+\z/i
+
+  before_validation :downcase_username
 
   has_many :questions
 
@@ -20,6 +33,10 @@ class User < ApplicationRecord
   validates_confirmation_of :password
 
   before_save :encrypt_password
+
+  def downcase_username
+    self.username = self.username.downcase
+  end
 
   def encrypt_password
     if password.present?
