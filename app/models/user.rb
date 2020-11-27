@@ -14,14 +14,13 @@ require 'openssl'
 class User < ApplicationRecord
   ITERATIONS = 20_000
   DIGEST = OpenSSL::Digest::SHA256.new
-  VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/
   VALID_USERNAME_REGEX = /\A[A-Za-z0-9_]+\z/i
 
   before_validation :downcase_username
 
   has_many :questions
 
-  validates :email, presence: true, format: { with: VALID_EMAIL_REGEX }
+  validates :email, presence: true, format: { with: /@/}
   validates :username, presence: true, format: { with: VALID_USERNAME_REGEX }
   validates :username, presence: true
   validates :username, length:{ within: 3..40 }
@@ -33,10 +32,13 @@ class User < ApplicationRecord
   validates_confirmation_of :password
 
   before_save :encrypt_password
-
-  def downcase_username
-    self.username = self.username.downcase
-  end
+  # begin
+    def downcase_username
+      self.username = self.username.downcase
+    end
+  # rescue NoMethodError=>e
+  #   nil # "Поля не должны быть пустые."
+  # end
 
   def encrypt_password
     if password.present?
