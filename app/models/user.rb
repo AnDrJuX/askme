@@ -14,13 +14,13 @@ require 'openssl'
 class User < ApplicationRecord
   ITERATIONS = 20_000
   DIGEST = OpenSSL::Digest::SHA256.new
-  VALID_USERNAME_REGEX = /\A[A-Za-z0-9_]+\z/i
+  VALID_USERNAME_REGEX = /\A[A-Z0-9_]+\z/i
 
   before_validation :downcase_username
 
   has_many :questions
 
-  validates :email, presence: true, format: { with: /@/}
+  validates :email, presence: true, format: { with: /\A.+@.+\z/}
   validates :username, presence: true, format: { with: VALID_USERNAME_REGEX }
   validates :username, presence: true
   validates :username, length:{ within: 3..40 }
