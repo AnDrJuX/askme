@@ -32,13 +32,13 @@ class User < ApplicationRecord
   validates_confirmation_of :password
 
   before_save :encrypt_password
-  # begin
-    def downcase_username
+
+  def downcase_username
+    begin
       self.username = self.username.downcase
+    rescue NoMethodError=>e
     end
-  # rescue NoMethodError=>e
-  #   nil # "Поля не должны быть пустые."
-  # end
+  end
 
   def encrypt_password
     if password.present?
