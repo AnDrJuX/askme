@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   root to: 'users#index'
-  resources :users
+  resources :users, except: [:destroy]
   resources :questions
   # get 'users/index'
   # get 'users/new'

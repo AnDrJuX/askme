@@ -5,6 +5,7 @@ class User < ApplicationRecord
   DIGEST = OpenSSL::Digest::SHA256.new
   VALID_USERNAME_REGEX = /\A[A-Z0-9_]+\z/i
 
+  before_validation :downcase_email
   before_validation :downcase_username
 
   has_many :questions
@@ -22,10 +23,15 @@ class User < ApplicationRecord
 
   before_save :encrypt_password
 
+  def downcase_email
+    if email.present?
+      self.email = self.email.downcase
+    end
+  end
+
   def downcase_username
-    begin
+    if username.present?
       self.username = self.username.downcase
-    rescue NoMethodError=>e
     end
   end
 
