@@ -36,7 +36,9 @@ class UsersController < ApplicationController
   def show
     @questions = @user.questions.order(created_at: :desc)
     @new_question = @user.questions.build
-    # @word_forms = %w[вопрос вопроса вопросов]
+    @questions_count = @questions.count
+    @answers_count = @questions.where.not(answer: nil).count
+    @without_answered_count = @questions_count - @answers_count
   end
 
   private

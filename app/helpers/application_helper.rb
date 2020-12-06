@@ -6,20 +6,25 @@ module ApplicationHelper
       asset_path 'avatar.jpg'
     end
   end
+
+  def inclination(number, one, few, many)
+    return "" if number.nil? || !number.is_a?(Numeric)
+    balance = number % 10
+    balance_100 = number % 100
+
+    return many if (11..14).include?(balance_100)
+
+    return one if balance == 1
+
+    return few if (2..4).include?(balance)
+
+    return many if  balance >= 5 || balance == 0
+  end
+
+  def fa_icon(icon_class)
+    content_tag 'span', '', class: "fa fa-#{icon_class}"
+  end
 end
-
-def sklonyator(q_count, word_forms)
-  q_count %= 100 if q_count > 100
-  q_count %= 10 if q_count > 20
-
-  return "#{q_count} #{word_forms[0]}" if q_count == 1
-  return "#{q_count} #{word_forms[1]}" if q_count.between?(2, 4)
-  "#{q_count} #{word_forms[2]}"
-end
-
-  # def fa_icon(icon_class)
-  #   content_tag 'span', '', class: "fa fa-#{icon_class}"
-  # end
 
 
 # Добавьте на страницу пользователя блок с количеством вопросов.
