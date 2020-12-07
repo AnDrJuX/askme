@@ -8,7 +8,7 @@ module ApplicationHelper
   end
 
   def inclination(number, one, few, many)
-    return "" if number.nil? || !number.is_a?(Numeric)
+    # return "" if number.nil? || !number.is_a?(Numeric)
     balance = number % 10
     balance_100 = number % 100
 
@@ -16,9 +16,9 @@ module ApplicationHelper
 
     return one if balance == 1
 
-    return few if (2..4).include?(balance)
-
     return many if  balance >= 5 || balance == 0
+
+    few
   end
 
   def fa_icon(icon_class)
