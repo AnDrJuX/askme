@@ -44,6 +44,11 @@ class UsersController < ApplicationController
     @without_answered_count = @questions_count - @answers_count
   end
 
+  def destroy
+    @user.destroy
+    redirect_to root_path, notice: "Пользователь удален"
+  end
+
   private
 
   def authorize_user

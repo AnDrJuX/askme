@@ -8,7 +8,7 @@ class User < ApplicationRecord
   before_validation :downcase_email
   before_validation :downcase_username
 
-  has_many :questions
+  has_many :questions, dependent: :delete_all
 
   validates :email, presence: true, format: { with: /\A.+@.+\z/}
   validates :username, presence: true, format: { with: VALID_USERNAME_REGEX }
