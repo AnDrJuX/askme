@@ -1,5 +1,4 @@
 class UsersController < ApplicationController
-
   before_action :load_user, except: [:index, :create, :new]
   before_action :authorize_user, except: [:index, :new, :create, :show]
 
@@ -8,7 +7,7 @@ class UsersController < ApplicationController
   end
 
   def new
-    redirect_to root_url, alert: 'Вы уже залогинены' if current_user.present?
+    redirect_to root_path, alert: 'Вы уже залогинены' if current_user.present?
     @user = User.new
   end
 
