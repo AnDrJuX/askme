@@ -6,10 +6,9 @@
       <%= question.text %>
     </div>
 
-    <% if question.author_id.present? %>
+    <% if question.author %>
       <div>
-        <%  question_author = User.find question.author_id%>
-        <%= link_to "Автор: @#{question_author.username}", user_path(question_author) %>
+        <%= link_to "Автор: @#{question.author.username}", user_path(question.author) %>
       </div>
     <% end %>
 
